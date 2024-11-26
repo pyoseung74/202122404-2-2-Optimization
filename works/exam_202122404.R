@@ -17,7 +17,7 @@ K[1:4,5:7] <- t(A)
 solve(K) %*% c(-q,b)
 
 install.packages("nloptr")
-
+library(nloptr)
 eval_f <- function(x)
   list(
     "objective" = x[1]^2 + x[2]^2 + x[3]^2 + 2*x[4]^2,
@@ -44,3 +44,10 @@ options <- list("algorithm" = "NLOPT_LD_LBFGS",
                 "xtol_rel" = 1.0e-30,
                 "maxeval" = 1000,
                 "local_opts" = optimizer)
+nlp4 <- nloptr(x0= x_init,
+               eval_f = eval_f,
+               eval_g_eq= eval_q_eq,
+               opts = options)
+
+nlp4$objective
+nlp4$solution
